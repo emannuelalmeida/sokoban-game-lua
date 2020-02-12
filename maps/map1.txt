@@ -1,0 +1,26 @@
+25,25
+WWWWWWWWWWWWWWWWWWWWWWWWW
+W                       W
+W  S  W           B     W
+W                       W
+W     W        W        W
+W    S                  W
+W                       W
+W      W B        WW    W
+W                       W
+W                       W
+W     SX                W
+W              W        W
+W                       W
+W      W                W
+W                       W
+W           WWWW        W
+W                  B    W
+W     W                 W
+W                       W
+W                       W
+W            W          W
+W               W       W
+W    W        W         W
+W       H           B  SW
+WWWWWWWWWWWWWWWWWWWWWWWWW
