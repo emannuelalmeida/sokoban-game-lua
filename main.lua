@@ -3,25 +3,38 @@ require(".map")
 require(".media")
 require(".input")
 require(".hero")
+require(".physics")
 
---Start of the game
 function love.load()
-    map = loadMap("maps\\map1.txt")
+    map = LoadMap("maps\\map1.txt")
+    DeltaX, DeltaY = 0, 0
 end
 
--- Proccess the inputs and the events. Actually don't know what to with the dt. Am I rusty or something like it?
 function love.update(dt)
-    --For now only the simple logic will be added. Later I'll add more stuff as screens.
-    deltaX, deltaY = ProcessPositionDelta()
-end
- 
--- Draw the map or the event
-function love.draw()
-    if (map.victory()) then
-        --Victory screen here, then wait a little bit and then wait to see if there's another map.
-    else
-        --Normal drawing of map here. Take the other screen to get it
-        love.graphics.print(deltaX, 30, 200)
-        love.graphics.print(deltaY, 30, 200)
+    MoveOrPushBox(map, DeltaX, DeltaY)
+    if map.victory() then
+        error("Aêeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee...")
     end
+end
+
+function love.keypressed(key, unicode, isRepeat)
+    DeltaX, DeltaY = ProcessPositionDelta(key)
+end
+
+function love.keyreleased(key, scancode)
+    DeltaX, DeltaY = 0, 0
+    CoolDown = false
+end
+
+function love.draw()
+
+    for i=1, map.sizeY do
+        for j=1, map.sizeX do
+            if map.grid[i][j] ~= 'H' then
+                love.graphics.print(map.grid[i][j], 10+j*15, 10+i*15)
+            end
+        end
+    end
+
+    love.graphics.print("H", 10+map.hero.x*15, 10+map.hero.y*15)
 end
