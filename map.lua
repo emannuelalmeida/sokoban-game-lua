@@ -7,14 +7,14 @@ local function generateMapGrid(map, mapContent)
 
     local validChars = " WBSXH"
 
-    for i=1,map.sizeX do
-        map.grid[i] = {}
+    for y=1,map.sizeY do
+        map.grid[y] = {}
 
-        for j=1, map.sizeY do
-            local char = string.sub(mapContent[i+1], j, j)
+        for x=1, map.sizeX do
+            local char = string.sub(mapContent[y+1], x, x)
 
             if (string.match(validChars, char)) then
-                map.grid[i][j] = char
+                map.grid[y][x] = char
 
                 if (char == 'B') then
                     map.numBoxes = map.numBoxes +1
@@ -25,22 +25,26 @@ local function generateMapGrid(map, mapContent)
                     map.numSlots = map.numSlots + 1
                     map.numOnSlot = map.numOnSlot + 1
                 elseif (char == 'H') then
-                    if (map.hero == nil) then 
-                        map.hero = Hero(i, j)
+                    if (map.hero == nil) then
+                        map.hero = Hero(x, y)
                     else
                         error("Error: Can't have more than one hero per map. Not yet ;)")
                     end
                 end
 
             else
-                error("Invalid character " .. char .. "found while importing map.")
+                error("Invalid character " .. char .. " found while importing map.")
             end
 
         end
     end
 
+    if map.hero == nil then
+        error("Error: We can't have an adventure without a hero :'<")
+    end
+
     map.victory = function ()
-        return map.numSlots == map.numOnSlot
+        return map.numBoxes == map.numOnSlot
     end
 
 end
@@ -64,7 +68,7 @@ local function importMap(fileName)
     return true, map
 end
 
-function loadMap(mapPath)
+function LoadMap(mapPath)
 
     --for now it's just a template to test the reading of the map
     local isValid, map = importMap(mapPath)
