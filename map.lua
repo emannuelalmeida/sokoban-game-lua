@@ -70,7 +70,6 @@ end
 
 function LoadMap(mapPath)
 
-    --for now it's just a template to test the reading of the map
     local isValid, map = importMap(mapPath)
     if (not isValid) then
         error("Invalid map", 2)
