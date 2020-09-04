@@ -4,7 +4,9 @@ end
 
 local function canWalk(map, dX, dY)
     local heroX, heroY = map.hero.x, map.hero.y
-    return map.grid[heroY+dY][heroX+dX] == ' ' or map.grid[heroY+dY][heroX+dX] == 'S'
+    return map.grid[heroY+dY][heroX+dX] == ' ' 
+        or map.grid[heroY+dY][heroX+dX] == 'S'
+        or map.grid[heroY+dY][heroX+dX] == 'H'
 end
 
 local function updateHero(map, dX, dY)
