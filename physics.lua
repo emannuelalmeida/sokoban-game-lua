@@ -47,12 +47,15 @@ function MoveOrPushBox(map, dX, dY)
 
         if canWalk(map, dX, dY) then
             updateHero(map, dX, dY)
+            CoolDown = true
+            return true
         elseif canPush(map, dX, dY) then
             pushBox(map, dX, dY)
             updateHero(map, dX, dY)
+            CoolDown = true
+            return true
         end
-            
-        CoolDown = true
     end
+    return false
 
 end
