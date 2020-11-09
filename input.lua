@@ -1,4 +1,14 @@
 CoolDown = false
+
+function ProcessControlInput(key)
+    if key == "q" then
+        EndGame()
+    elseif key == "r" then
+        RestartGame()
+    end
+
+end
+
 function ProcessPositionDelta(key)
     local dX = 0
     local dY = 0
@@ -14,4 +24,10 @@ function ProcessPositionDelta(key)
     end
 
     return dX, dY
+end
+
+function ProcessStartInput(key)
+    if key == "space" then
+        StartGame()
+    end
 end

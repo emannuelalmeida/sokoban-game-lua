@@ -1,7 +1,12 @@
-function SetMapScaleFactor()
+local scaleFactor, spriteSize, shiftFactorX, shiftFactorY = 0, 0, 0, 0
+local originalSpriteSize = 35
+local map = {}
 
-    local sizeX = map.sizeX * OriginalSpriteSize
-    local sizeY = map.sizeY * OriginalSpriteSize
+function SetMapScaleFactor(mapObj)
+
+    map = mapObj
+    local sizeX = map.sizeX * originalSpriteSize
+    local sizeY = map.sizeY * originalSpriteSize
 
     if (sizeX > WinWidth or sizeY > WinHeight) then
         local scaleX = WinWidth / sizeX
@@ -9,30 +14,51 @@ function SetMapScaleFactor()
 
         if (scaleX > scaleY) then
 
-            ShiftFactorX = math.abs(sizeX - WinWidth) * scaleY
-            ShiftFactorY = 0
-            return scaleY, OriginalSpriteSize * scaleY, ShiftFactorX, ShiftFactorY
+            shiftFactorX = math.abs(sizeX - WinWidth) * scaleY
+            shiftFactorY = 0
+            scaleFactor = scaleY 
+            spriteSize = originalSpriteSize * scaleY
         else
 
-            ShiftFactorX = 0
-            ShiftFactorY = math.abs(sizeY - WinHeight) * scaleX
-            return scaleX, OriginalSpriteSize * scaleX, ShiftFactorX, ShiftFactorY
+            shiftFactorX = 0
+            shiftFactorY = math.abs(sizeY - WinHeight) * scaleX
+            scaleFactor = scaleX
+            spriteSize = originalSpriteSize * scaleX
         end
     else
-        return 1, OriginalSpriteSize, 0, 0
+        scaleFactor = 1
+        spriteSize = originalSpriteSize
     end
 
 end
 
-function DrawGameScreen()
+local function drawGameScreen()
     for i=1, map.sizeY do
         for j=1, map.sizeX do
             local cell = map.grid[i][j]
             if cell ~= 'H' and cell ~= ' ' then
-                love.graphics.draw(Images[cell], (j-1)*SpriteSize+ShiftFactorX, (i-1)*SpriteSize+ShiftFactorY, 0, ScaleFactor, ScaleFactor)
+                love.graphics.draw(Images[cell], (j-1)*spriteSize+shiftFactorX, (i-1)*spriteSize+shiftFactorY, 0, scaleFactor, scaleFactor)
             end
         end
     end
 
-    love.graphics.draw(Images["hero"], (map.hero.x-1)*SpriteSize+ShiftFactorX, (map.hero.y-1)*SpriteSize+ShiftFactorY, 0, ScaleFactor, ScaleFactor)
+    love.graphics.draw(Images["hero"], (map.hero.x-1)*spriteSize+shiftFactorX, (map.hero.y-1)*spriteSize+shiftFactorY, 0, scaleFactor, ScaleFactor)
+end
+
+local function drawStartScreen()
+    love.graphics.draw(Images["start"], 0, 0, 0, WinWidth/684, WinHeight/400)
+end
+
+local function drawVictoryScreen()
+    love.graphics.draw(Images["victory"], 0, 0, 0, WinWidth/684, WinHeight/400)
+end
+
+function DrawScreen()
+    if IsStartState()  then
+        drawStartScreen()
+    elseif IsVictoryState() then
+        drawVictoryScreen()
+    else
+        drawGameScreen()
+    end
 end

@@ -8,14 +8,14 @@ Next features for 2.0:
 - A movement counter. - DONE
 - A highscore screen.
 - Scale factor and sprite size dynamic - ALMOST DONE
-- Camera view to move inside bigger maps 
 - Center screen to fit better - DONE
-- A proper menu :).
+- A proper menu - HALF DONE
 - Fix all this weird screen changing bugs - DONE
 
 For 3.0:
 
-- Packaging.
+- Camera view to move inside bigger maps
 - Sounds.
+- Packaging.
 - CI/CD.
 - Select map from menu (and different difficulties).
