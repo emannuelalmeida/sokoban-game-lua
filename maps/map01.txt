@@ -1,0 +1,8 @@
+11,7
+WWWWWWWWWWW
+WH        W
+W         W
+W       B W
+W   S     W
+W         W
+WWWWWWWWWWW

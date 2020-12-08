@@ -1,3 +1,5 @@
+require(".mapManager")
+
 local gameState = "Start"
 local map = {}
 local moves = 0
@@ -17,7 +19,7 @@ local function actInGame()
         love.window.setTitle("Unnamed Sokoban Challenge. " .. moves .. " Moves.")
     end
     if map.victory() then
-        WinGame()
+        StartGame()
     end
 end
 
@@ -44,15 +46,19 @@ end
 function StartGame()
     gameState = "InGame"
     moves = 0
-    map = LoadMap("maps\\map1.txt")
-    SetMapScaleFactor(map)
+    if ExistsNextMap() then
+        map = GetNextMap()
+        SetMapScaleFactor(map)
+    else
+        WinGame()
+    end
 end
 
 function WinGame()
     gameState = "Victory"
 end
 
-function EndGame() 
+function EndGame()
     love.event.quit(0)
 end
 
