@@ -6,7 +6,7 @@ Next features for 2.0:
 - Hero has a direction. Also a better sprite for our hero.
 - A map manager with several levels and a victory screen when there's none left - DONE
 - A movement counter. - DONE
-- A highscore screen.
+- A highscore screen - HALF DONE
 - Scale factor and sprite size dynamic - DONE
 - Center screen to fit better - DONE
 - A proper menu - HALF DONE

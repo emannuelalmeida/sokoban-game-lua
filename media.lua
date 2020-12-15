@@ -8,6 +8,7 @@ local function loadAllImages()
     images["hero"] = love.graphics.newImage("media/hero.jpg")
     images["start"] = love.graphics.newImage("media/start.jpg")
     images["victory"] = love.graphics.newImage("media/victory.jpg")
+    images["highscore"] = love.graphics.newImage("media/highscore.jpg")
 
     return images
 

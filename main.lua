@@ -6,6 +6,7 @@ require(".hero")
 require(".physics")
 require(".screen")
 require(".game")
+require(".scores")
 
 function love.load()
     WinHeight = 700

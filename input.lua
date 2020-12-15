@@ -29,5 +29,7 @@ end
 function ProcessStartInput(key)
     if key == "space" then
         StartGame()
+    elseif key == "h" then
+        ShowHighScores()
     end
 end

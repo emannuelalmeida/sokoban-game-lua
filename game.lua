@@ -3,10 +3,11 @@ require(".mapManager")
 local gameState = "Start"
 local map = {}
 local moves = 0
+local totalMoves = 0
 
 local function actVictory()
-    love.timer.sleep(10)
-    EndGame()
+    love.timer.sleep(5)
+    ShowHighScores()
 end
 
 local function actStart()
@@ -19,8 +20,14 @@ local function actInGame()
         love.window.setTitle("Unnamed Sokoban Challenge. " .. moves .. " Moves.")
     end
     if map.victory() then
+        totalMoves = totalMoves + moves
         StartGame()
     end
+end
+
+local function actHighScore()
+    love.timer.sleep(10)
+    RestartGame()
 end
 
 function CheckStateAndAct()
@@ -29,6 +36,8 @@ function CheckStateAndAct()
         actStart()
     elseif gameState == "Victory" then
         actVictory()
+    elseif gameState == "HighScore" then
+        actHighScore()
     else
         actInGame()
     end
@@ -37,6 +46,10 @@ end
 
 function IsStartState()
     return gameState == "Start"
+end
+
+function IsHighScoreState()
+    return gameState == "HighScore"
 end
 
 function IsVictoryState()
@@ -54,6 +67,10 @@ function StartGame()
     end
 end
 
+function ShowHighScores()
+    gameState = "HighScore"
+end
+
 function WinGame()
     gameState = "Victory"
 end
@@ -64,4 +81,5 @@ end
 
 function RestartGame()
     gameState = "Start"
+    BackToFirstMap()
 end
