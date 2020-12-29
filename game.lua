@@ -4,10 +4,11 @@ local gameState = "Start"
 local map = {}
 local moves = 0
 local totalMoves = 0
+PlayerName = ""
 
 local function actVictory()
     love.timer.sleep(5)
-    ShowHighScores()
+    GetPlayerName()
 end
 
 local function actStart()
@@ -25,9 +26,14 @@ local function actInGame()
     end
 end
 
-local function actHighScore()
-    love.timer.sleep(10)
-    RestartGame()
+function ActMenuChoice()
+    if MenuPos == 1 then
+        StartGame()
+    elseif MenuPos == 2 then
+        ShowHighScores()
+    else
+        EndGame()
+    end
 end
 
 function CheckStateAndAct()
@@ -36,9 +42,7 @@ function CheckStateAndAct()
         actStart()
     elseif gameState == "Victory" then
         actVictory()
-    elseif gameState == "HighScore" then
-        actHighScore()
-    else
+    elseif gameState == "InGame" then
         actInGame()
     end
 
@@ -56,15 +60,23 @@ function IsVictoryState()
     return gameState == "Victory"
 end
 
+function IsPlayerNameState()
+    return gameState == "PlayerName"
+end
+
 function StartGame()
     gameState = "InGame"
-    moves = 0
     if ExistsNextMap() then
         map = GetNextMap()
         SetMapScaleFactor(map)
     else
         WinGame()
     end
+end
+
+function UpdateHighScore()
+    InsertHighScore(PlayerName, moves)
+    ShowHighScores()
 end
 
 function ShowHighScores()
@@ -76,10 +88,16 @@ function WinGame()
 end
 
 function EndGame()
+    SaveHighScores()
     love.event.quit(0)
+end
+
+function GetPlayerName()
+    gameState = "PlayerName"
 end
 
 function RestartGame()
     gameState = "Start"
+    moves = 0
     BackToFirstMap()
 end

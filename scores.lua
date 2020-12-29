@@ -1,7 +1,7 @@
 local highScores = {}
 
-local function sortHighScores(scores)
-    function scoreFunc(score1, score2) 
+local function sortHighScores()
+    local function scoreFunc(score1, score2)
         if tonumber(score1["time"]) < tonumber(score2["time"]) then
             return true
         else
@@ -9,9 +9,8 @@ local function sortHighScores(scores)
         end
     end
     
-    table.sort(scores, scoreFunc)
+    table.sort(highScores, scoreFunc)
 
-    return scores
 end
 
 local function loadHighScores()
@@ -25,17 +24,43 @@ local function loadHighScores()
     
     for i=1, #highScoreList do
         local score = Split(highScoreList[i], ",")
-        scoreTb = {}
+        local scoreTb = {}
         scoreTb["player"] = score[1]
         scoreTb["time"] = score[2]
         table.insert(highScores, scoreTb)
     end
-    
-    return sortHighScores(highScores)
+
+    sortHighScores()
+end
+
+function SaveHighScores()
+    local file = io.open("scores.dat", "w")
+
+    if not file then
+        error("Error trying to write highscores file.")
+    end
+
+    io.output(file)
+
+    for i=1, #highScores do
+        local scoreLine = highScores[i]["player"] .. ", " .. highScores[i]["time"] .. "\n"
+        io.write(scoreLine)
+    end
+
+    io.close()
+
 end
 
 function GetHighScores()
     return highScores
 end
 
-highScores = loadHighScores()
+function InsertHighScore(name, time)
+    local newScore = {}
+    newScore["player"] = name
+    newScore["time"] = time
+    table.insert(highScores, newScore)
+    sortHighScores()
+end
+
+loadHighScores()
