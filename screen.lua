@@ -1,6 +1,7 @@
 local scaleFactor, spriteSize, shiftFactorX, shiftFactorY = 0, 0, 0, 0
 local originalSpriteSize = 35
 local map = {}
+local color = {1, 0, 1, 1}
 
 function SetMapScaleFactor(mapObj)
 
@@ -47,17 +48,46 @@ end
 
 local function drawStartScreen()
     love.graphics.draw(Images["start"], 0, 0, 0, WinWidth/684, WinHeight/400)
+
+    local menuColor = {}
+    for i=1, #MenuOptions do
+        if i == MenuPos then
+            menuColor = {1, 0, 0, 1}
+        else
+            menuColor = {1, 1, 1, 1}
+        end
+        love.graphics.print({menuColor, MenuOptions[i]}, 500, 350+30*i, 0, 2)
+    end
 end
 
 local function drawVictoryScreen()
     love.graphics.draw(Images["victory"], 0, 0, 0, WinWidth/684, WinHeight/400)
 end
 
+local function drawPlayerNameScreen()
+    love.graphics.draw(Images["playerName"], 0, 0, 0, WinWidth/684, WinHeight/400)
+    love.graphics.print({color, PlayerName}, 382, 200, 0, 2)
+end
+
+local function drawHighScoreScreen()
+    love.graphics.draw(Images["highscore"], 0, 0, 0, WinWidth/684, WinHeight/400)
+    local scores = GetHighScores()
+
+    for i=1, #scores do
+        love.graphics.print({color, scores[i]["player"]}, 40, 80+20*i, 0, 2)
+        love.graphics.print({color, scores[i]["time"]}, 382, 80+20*i, 0, 2)
+    end
+end
+
 function DrawScreen()
-    if IsStartState()  then
+    if IsStartState() then
         drawStartScreen()
     elseif IsVictoryState() then
         drawVictoryScreen()
+    elseif IsHighScoreState() then
+        drawHighScoreScreen()
+    elseif IsPlayerNameState() then
+        drawPlayerNameScreen()
     else
         drawGameScreen()
     end

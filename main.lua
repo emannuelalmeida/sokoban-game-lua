@@ -6,6 +6,8 @@ require(".hero")
 require(".physics")
 require(".screen")
 require(".game")
+require(".scores")
+require(".menu")
 
 function love.load()
     WinHeight = 700
@@ -20,14 +22,10 @@ function love.update(dt)
 end
 
 function love.keypressed(key, unicode, isRepeat)
-    
-    ProcessControlInput(key)
 
-    if IsStartState() then
-        ProcessStartInput(key)
-    else
-        DeltaX, DeltaY = ProcessPositionDelta(key)
-    end
+    ProcessControlInput(key)
+    DeltaX, DeltaY = ProcessPositionDelta(key)
+
 end
 
 function love.keyreleased(key, scancode)

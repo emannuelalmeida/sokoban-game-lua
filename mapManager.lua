@@ -22,4 +22,8 @@ function GetNextMap()
     return LoadMap(maps[currentMap])
 end
 
+function BackToFirstMap()
+    currentMap = 0
+end
+
 maps = loadMapsNames()

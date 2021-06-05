@@ -3,10 +3,12 @@ require(".mapManager")
 local gameState = "Start"
 local map = {}
 local moves = 0
+local totalMoves = 0
+PlayerName = ""
 
 local function actVictory()
-    love.timer.sleep(10)
-    EndGame()
+    love.timer.sleep(5)
+    GetPlayerName()
 end
 
 local function actStart()
@@ -19,7 +21,18 @@ local function actInGame()
         love.window.setTitle("Unnamed Sokoban Challenge. " .. moves .. " Moves.")
     end
     if map.victory() then
+        totalMoves = totalMoves + moves
         StartGame()
+    end
+end
+
+function ActMenuChoice()
+    if MenuPos == 1 then
+        StartGame()
+    elseif MenuPos == 2 then
+        ShowHighScores()
+    else
+        EndGame()
     end
 end
 
@@ -29,7 +42,7 @@ function CheckStateAndAct()
         actStart()
     elseif gameState == "Victory" then
         actVictory()
-    else
+    elseif gameState == "InGame" then
         actInGame()
     end
 
@@ -39,13 +52,20 @@ function IsStartState()
     return gameState == "Start"
 end
 
+function IsHighScoreState()
+    return gameState == "HighScore"
+end
+
 function IsVictoryState()
     return gameState == "Victory"
 end
 
+function IsPlayerNameState()
+    return gameState == "PlayerName"
+end
+
 function StartGame()
     gameState = "InGame"
-    moves = 0
     if ExistsNextMap() then
         map = GetNextMap()
         SetMapScaleFactor(map)
@@ -54,14 +74,30 @@ function StartGame()
     end
 end
 
+function UpdateHighScore()
+    InsertHighScore(PlayerName, moves)
+    ShowHighScores()
+end
+
+function ShowHighScores()
+    gameState = "HighScore"
+end
+
 function WinGame()
     gameState = "Victory"
 end
 
 function EndGame()
+    SaveHighScores()
     love.event.quit(0)
+end
+
+function GetPlayerName()
+    gameState = "PlayerName"
 end
 
 function RestartGame()
     gameState = "Start"
+    moves = 0
+    BackToFirstMap()
 end
