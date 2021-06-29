@@ -1,34 +1,24 @@
-local scaleFactor, spriteSize, shiftFactorX, shiftFactorY = 0, 0, 0, 0
-local originalSpriteSize = 35
+local scaleFactor, spriteSize, shiftFactorX, shiftFactorY = 1, 0, 0, 0
+local spriteSize = 35
 local map = {}
 local color = {1, 0, 1, 1}
 
-function SetMapScaleFactor(mapObj)
+function AdjustMapToScreen(mapObj)
 
     map = mapObj
-    local sizeX = map.sizeX * originalSpriteSize
-    local sizeY = map.sizeY * originalSpriteSize
+    local sizeX = map.sizeX * spriteSize
+    local sizeY = map.sizeY * spriteSize
 
-    if (sizeX > WinWidth or sizeY > WinHeight) then
-        local scaleX = WinWidth / sizeX
-        local scaleY = WinHeight / sizeY
-
-        if (scaleX > scaleY) then
-
-            shiftFactorX = math.abs(sizeX - WinWidth) * scaleY
-            shiftFactorY = 0
-            scaleFactor = scaleY 
-            spriteSize = originalSpriteSize * scaleY
-        else
-
-            shiftFactorX = 0
-            shiftFactorY = math.abs(sizeY - WinHeight) * scaleX
-            scaleFactor = scaleX
-            spriteSize = originalSpriteSize * scaleX
-        end
+    if (sizeX < WinWidth) then
+        shiftFactorX = math.abs(sizeX - WinWidth)/2
     else
-        scaleFactor = 1
-        spriteSize = originalSpriteSize
+        shiftFactorX = 0
+    end
+
+    if (sizeY < WinHeight) then
+        shiftFactorY = math.abs(sizeY - WinHeight)/2
+    else
+        shiftFactorY = 0
     end
 
 end
@@ -43,7 +33,7 @@ local function drawGameScreen()
         end
     end
 
-    love.graphics.draw(Images["hero"], (map.hero.x-1)*spriteSize+shiftFactorX, (map.hero.y-1)*spriteSize+shiftFactorY, 0, scaleFactor, ScaleFactor)
+    love.graphics.draw(Images["hero"], (map.hero.x-1)*spriteSize+shiftFactorX, (map.hero.y-1)*spriteSize+shiftFactorY, 0, scaleFactor, scaleFactor)
 end
 
 local function drawStartScreen()
