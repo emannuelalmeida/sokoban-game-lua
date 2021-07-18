@@ -68,7 +68,7 @@ function StartGame()
     gameState = "InGame"
     if ExistsNextMap() then
         map = GetNextMap()
-        SetMapScaleFactor(map)
+        AdjustMapToScreen(map)
     else
         WinGame()
     end
