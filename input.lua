@@ -3,10 +3,13 @@ CoolDown = false
 
 local function processMenuInput(key)
     if key == "up" then
+        Sounds["menu"]:play()
         MenuPos = MenuPos - 1
     elseif key == "down" then
+        Sounds["menu"]:play()
         MenuPos = MenuPos + 1
     elseif key == "return" then
+        Sounds["confirma"]:play()
         ActMenuChoice()
     end
 

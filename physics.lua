@@ -51,6 +51,8 @@ function MoveOrPushBox(map, dX, dY)
             return true
         elseif canPush(map, dX, dY) then
             pushBox(map, dX, dY)
+            Sounds["caixa"]:stop()
+            Sounds["caixa"]:play()
             updateHero(map, dX, dY)
             CoolDown = true
             return true
