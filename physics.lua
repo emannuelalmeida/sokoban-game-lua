@@ -1,3 +1,11 @@
+Physics = {}
+
+local cooldown = false
+
+function Physics.ReleaseCooldown()
+    cooldown = false
+end
+
 local function validMovement(dx, dy)
     return dx ~= 0 or dy ~= 0
 end
@@ -41,23 +49,25 @@ local function pushBox(map, dX, dY)
     end
 end
 
-function MoveOrPushBox(map, dX, dY)
+function Physics.MoveOrPushBox(map, dX, dY)
 
-    if not CoolDown and validMovement(dX, dY) then
+    if not cooldown and validMovement(dX, dY) then
 
         if canWalk(map, dX, dY) then
             updateHero(map, dX, dY)
-            CoolDown = true
+            cooldown = true
             return true
         elseif canPush(map, dX, dY) then
             pushBox(map, dX, dY)
             Sounds["caixa"]:stop()
             Sounds["caixa"]:play()
             updateHero(map, dX, dY)
-            CoolDown = true
+            cooldown = true
             return true
         end
     end
     return false
 
 end
+
+return Physics

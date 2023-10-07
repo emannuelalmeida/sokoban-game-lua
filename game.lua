@@ -1,103 +1,63 @@
-require(".mapManager")
+Game = {}
 
-local gameState = "Start"
-local map = {}
-local moves = 0
-local totalMoves = 0
-PlayerName = ""
+Game.Scenes = {}
+require("scenes.highScoreScene")
+require("scenes.inGameScene")
+require("scenes.victoryScene")
+require("scenes.menuScene")
+require("scenes.playerNameScene")
 
-local function actVictory()
-    love.timer.sleep(5)
-    GetPlayerName()
+local scene = "menu"
+local color = {1, 0, 1, 1}
+
+function Game.GetColor()
+    return color
 end
 
-local function actStart()
-    love.window.setTitle("Unnamed Sokoban Challenge. Now in Lua!!")
+function Game.ActCurrentScene()
+    Game.Scenes[scene].Act()
 end
 
-local function actInGame()
-    if MoveOrPushBox(map, DeltaX, DeltaY) then
-        moves = moves+1
-        love.window.setTitle("Unnamed Sokoban Challenge. " .. moves .. " Moves.")
-    end
-    if map.victory() then
-        totalMoves = totalMoves + moves
-        StartGame()
-    end
+function Game.DrawCurrentScene()
+    Game.Scenes[scene].Draw()
 end
 
-function ActMenuChoice()
-    if MenuPos == 1 then
-        StartGame()
-    elseif MenuPos == 2 then
-        ShowHighScores()
-    else
-        EndGame()
-    end
+function Game.ProcessInputCurrentScene(key)
+    Game.Scenes[scene].Input(key)
 end
 
-function CheckStateAndAct()
-
-    if gameState == "Start" then
-        actStart()
-    elseif gameState == "Victory" then
-        actVictory()
-    elseif gameState == "InGame" then
-        actInGame()
-    end
-
+function Game.CurrentScene()
+    return scene
 end
 
-function IsStartState()
-    return gameState == "Start"
-end
-
-function IsHighScoreState()
-    return gameState == "HighScore"
-end
-
-function IsVictoryState()
-    return gameState == "Victory"
-end
-
-function IsPlayerNameState()
-    return gameState == "PlayerName"
-end
-
-function StartGame()
-    gameState = "InGame"
-    if ExistsNextMap() then
-        map = GetNextMap()
-        AdjustMapToScreen(map)
-    else
-        WinGame()
-    end
-end
-
-function UpdateHighScore()
+function Game.UpdateHighScore()
     InsertHighScore(PlayerName, moves)
-    ShowHighScores()
+    Game.ShowHighScores()
 end
 
-function ShowHighScores()
-    gameState = "HighScore"
+function Game.ShowHighScores()
+    scene = "highScore"
 end
 
-function WinGame()
-    gameState = "Victory"
+function Game.FinishGame()
+    scene = "victory"
 end
 
-function EndGame()
+function Game.EndGame()
     SaveHighScores()
     love.event.quit(0)
 end
 
-function GetPlayerName()
-    gameState = "PlayerName"
+function Game.GetPlayerName()
+    scene = "playerName"
 end
 
-function RestartGame()
-    gameState = "Start"
-    moves = 0
-    BackToFirstMap()
+function Game.StartGame()
+    scene = "inGame"
 end
+
+function Game.RestartGame()
+    scene = "menu"
+end
+
+return Game
