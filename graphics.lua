@@ -1,11 +1,10 @@
+Graphics = {}
+
 local shiftFactorX, shiftFactorY, sizeXOnScreen, sizeYOnScreen = 0, 0, 0, 0
 local spriteSize = 35
-local map = {}
-local color = {1, 0, 1, 1}
 
-function AdjustMapToScreen(mapObj)
+function Graphics.AdjustMapToScreen(map)
 
-    map = mapObj
     sizeXOnScreen = map.sizeX * spriteSize
     sizeYOnScreen = map.sizeY * spriteSize
 
@@ -23,7 +22,7 @@ function AdjustMapToScreen(mapObj)
 
 end
 
-local function checkAndAdjustShiftFactors()
+local function checkAndAdjustShiftFactors(map)
     if (sizeXOnScreen > WinWidth) then
         if ((map.hero.x ) * spriteSize + shiftFactorX  > WinWidth/2
             and sizeXOnScreen + shiftFactorX >= WinWidth ) then
@@ -65,9 +64,9 @@ local function isCellDrawable(x, y)
         end
 end
 
-local function drawGameScreen()
+function Graphics.DrawGameScreen(map)
     
-    checkAndAdjustShiftFactors()
+    checkAndAdjustShiftFactors(map)
     
     for i=1, map.sizeY do
         for j=1, map.sizeX do
@@ -81,49 +80,4 @@ local function drawGameScreen()
     love.graphics.draw(Images["hero"], (map.hero.x-1)*spriteSize+shiftFactorX, (map.hero.y-1)*spriteSize+shiftFactorY, 0)
 end
 
-local function drawStartScreen()
-    love.graphics.draw(Images["start"], 0, 0, 0, WinWidth/684, WinHeight/400)
-
-    local menuColor = {}
-    for i=1, #MenuOptions do
-        if i == MenuPos then
-            menuColor = {1, 0, 0, 1}
-        else
-            menuColor = {1, 1, 1, 1}
-        end
-        love.graphics.print({menuColor, MenuOptions[i]}, 500, 350+30*i, 0, 2)
-    end
-end
-
-local function drawVictoryScreen()
-    love.graphics.draw(Images["victory"], 0, 0, 0, WinWidth/684, WinHeight/400)
-end
-
-local function drawPlayerNameScreen()
-    love.graphics.draw(Images["playerName"], 0, 0, 0, WinWidth/684, WinHeight/400)
-    love.graphics.print({color, PlayerName}, 382, 200, 0, 2)
-end
-
-local function drawHighScoreScreen()
-    love.graphics.draw(Images["highscore"], 0, 0, 0, WinWidth/684, WinHeight/400)
-    local scores = GetHighScores()
-
-    for i=1, #scores do
-        love.graphics.print({color, scores[i]["player"]}, 40, 80+20*i, 0, 2)
-        love.graphics.print({color, scores[i]["time"]}, 382, 80+20*i, 0, 2)
-    end
-end
-
-function DrawScreen()
-    if IsStartState() then
-        drawStartScreen()
-    elseif IsVictoryState() then
-        drawVictoryScreen()
-    elseif IsHighScoreState() then
-        drawHighScoreScreen()
-    elseif IsPlayerNameState() then
-        drawPlayerNameScreen()
-    else
-        drawGameScreen()
-    end
-end
+return Graphics

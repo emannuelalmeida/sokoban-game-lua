@@ -1,3 +1,14 @@
+Mapper = {}
+
+local maps = {}
+local currentMap = {}
+local currentMapNum = 0
+local mapsFolder = "maps"
+
+function Hero(x, y) 
+    return {x = x, y = y}
+end
+
 local function generateMapGrid(map, mapContent)
     map.grid = {}
 
@@ -68,7 +79,7 @@ local function importMap(fileName)
     return true, map
 end
 
-function LoadMap(mapPath)
+local function LoadMap(mapPath)
 
     local isValid, map = importMap(mapPath)
     if (not isValid) then
@@ -78,3 +89,44 @@ function LoadMap(mapPath)
     return map
 end
 
+local function loadMapsNames()
+    maps = {}
+
+    local files = love.filesystem.getDirectoryItems(mapsFolder)
+    for k, file in ipairs(files) do
+       table.insert(maps, mapsFolder .. "\\" .. file)
+    end
+
+    return maps
+end
+
+function Mapper.ExistsNextMap()
+    return #maps > currentMapNum
+end
+
+function Mapper.UpdateNextMap()
+    currentMapNum = currentMapNum + 1
+    currentMap = LoadMap(maps[currentMapNum])
+end
+
+function Mapper.BackToFirstMap()
+    currentMapNum = 0
+end
+
+function Mapper.isVictoryState()
+    return currentMap.victory()
+end
+
+function Mapper.GetCurrentMap()
+    return currentMap
+end
+
+function Mapper.SetFirstMapIfEmpty()
+    if next(currentMap) == nil then
+        Mapper.UpdateNextMap()
+    end
+end
+
+maps = loadMapsNames()
+
+return Mapper

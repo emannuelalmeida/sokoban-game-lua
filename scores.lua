@@ -1,3 +1,5 @@
+Scores = {}
+
 local highScores = {}
 
 local function sortHighScores()
@@ -33,7 +35,7 @@ local function loadHighScores()
     sortHighScores()
 end
 
-function SaveHighScores()
+function Scores.SaveHighScores()
     local file = io.open("scores.dat", "w")
 
     if not file then
@@ -43,7 +45,7 @@ function SaveHighScores()
     io.output(file)
 
     for i=1, #highScores do
-        local scoreLine = highScores[i]["player"] .. ", " .. highScores[i]["time"] .. "\n"
+        local scoreLine = Trim(highScores[i]["player"]) .. ", " .. Trim(highScores[i]["time"]) .. "\n"
         io.write(scoreLine)
     end
 
@@ -51,16 +53,18 @@ function SaveHighScores()
 
 end
 
-function GetHighScores()
-    return highScores
-end
-
-function InsertHighScore(name, time)
+function Scores.InsertHighScore(name, time)
     local newScore = {}
     newScore["player"] = name
     newScore["time"] = time
     table.insert(highScores, newScore)
     sortHighScores()
 end
+
+function Scores.GetHighScores()
+    return highScores
+end
+
+
 
 loadHighScores()
