@@ -8,7 +8,7 @@ function PlayerNameScene.Act()
 end
 
 function love.textinput(text)
-    if Game.CurrentScene() == PlayerNameScene.name and utf8.len(playerName) < 25 then
+    if utf8.len(playerName) < 25 then
         playerName = playerName .. text
     end
 end
@@ -21,8 +21,10 @@ function PlayerNameScene.Input(key)
             playerName = string.sub(playerName, 1, byteoffset - 1)
         end
     elseif key == "return" then
-        Game.UpdateHighScore()
+        Scores.InsertHighScore(playerName, Game.GetMovesCount())
+        Game.ShowHighScores()
     end
+
 end
 
 function PlayerNameScene.Draw()

@@ -18,6 +18,7 @@ local function resumeOrFinishGame()
         Mapper.UpdateNextMap()
         Graphics.AdjustMapToScreen(Mapper.GetCurrentMap())
     else
+        Game.UpdateMoveCount(moves)
         Game.FinishGame()
     end
 end

@@ -7,6 +7,7 @@ require("scenes.victoryScene")
 require("scenes.menuScene")
 require("scenes.playerNameScene")
 
+local movesCount = 0
 local scene = "menu"
 local color = {1, 0, 1, 1}
 
@@ -30,9 +31,12 @@ function Game.CurrentScene()
     return scene
 end
 
-function Game.UpdateHighScore()
-    InsertHighScore(PlayerName, moves)
-    Game.ShowHighScores()
+function Game.UpdateMoveCount(moves)
+    movesCount = moves
+end
+
+function Game.GetMovesCount()
+    return movesCount
 end
 
 function Game.ShowHighScores()
@@ -44,7 +48,7 @@ function Game.FinishGame()
 end
 
 function Game.EndGame()
-    SaveHighScores()
+    Scores.SaveHighScores()
     love.event.quit(0)
 end
 

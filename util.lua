@@ -11,3 +11,7 @@ function Split(str, sep)
 
     return t
 end
+
+function Trim(str)
+    return string.gsub(str, "%s+", "")
+end
