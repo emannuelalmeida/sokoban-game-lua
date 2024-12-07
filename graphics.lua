@@ -77,7 +77,7 @@ function Graphics.DrawGameScreen(map)
         end
     end
 
-    love.graphics.draw(Images["hero"], (map.hero.x-1)*spriteSize+shiftFactorX, (map.hero.y-1)*spriteSize+shiftFactorY, 0)
+    love.graphics.drawLayer(Images["hero"], map.hero.dir, (map.hero.x-1)*spriteSize+shiftFactorX, (map.hero.y-1)*spriteSize+shiftFactorY, 0)
 end
 
 return Graphics

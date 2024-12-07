@@ -20,6 +20,16 @@ end
 local function updateHero(map, dX, dY)
     map.hero.x = map.hero.x+dX
     map.hero.y = map.hero.y+dY
+
+    if dX > 0 then
+        map.hero.dir = 4
+    elseif dX < 0 then 
+        map.hero.dir = 3
+    elseif dY > 0 then
+        map.hero.dir = 2
+    elseif dY < 0 then
+        map.hero.dir = 1
+    end
 end
 
 local function canPush(map, dX, dY)
