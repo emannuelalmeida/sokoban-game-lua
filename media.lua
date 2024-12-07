@@ -5,11 +5,17 @@ local function loadAllImages()
     images["X"] = love.graphics.newImage("media/images/boxOnSlot.jpg")
     images["W"] = love.graphics.newImage("media/images/wall.jpg")
     images["S"] = love.graphics.newImage("media/images/slot.jpg")
-    images["hero"] = love.graphics.newImage("media/images/hero.jpg")
     images["start"] = love.graphics.newImage("media/images/start.jpg")
     images["victory"] = love.graphics.newImage("media/images/victory.jpg")
     images["highscore"] = love.graphics.newImage("media/images/highscore.jpg")
     images["playerName"] = love.graphics.newImage("media/images/player.jpg")
+    
+    -- Hero sprites
+    local sprites = {"media/images/heroUp.jpg", 
+        "media/images/heroDown.jpg", 
+        "media/images/heroLeft.jpg", 
+        "media/images/heroRight.jpg"}
+    images["hero"] = love.graphics.newArrayImage(sprites)
 
     return images
 

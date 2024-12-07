@@ -6,7 +6,7 @@ local currentMapNum = 0
 local mapsFolder = "maps"
 
 function Hero(x, y) 
-    return {x = x, y = y}
+    return {x = x, y = y, dir = 2}
 end
 
 local function generateMapGrid(map, mapContent)
